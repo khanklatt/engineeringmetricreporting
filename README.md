@@ -32,7 +32,7 @@ As a software leader, I always wanted a basic dashboard showing these key metric
 * Mean Time to Repair (how long does it take to fix a problem in production?)
 * Change Failure Rate (how often does a release to production cause a significant problem?)
 
-(The fourth key metric, Cycle-time-to-Release, is one Jira is less helpful with, and one which I might add
+(The fourth key metric, Lead Time for Changes, is one Jira is less helpful with, and one which I might add
 with a separate module looking at commit data.)
 
 # Caveats/Motivation
@@ -63,13 +63,13 @@ as I considered what kind of dashboard tool to use (e.g. Graphana or build my ow
 the metrics are simple enough, and don't necessarily need historical tracking. In the interest of
 making this available sooner than later, I found the Geckoboard dashboard tool could do what I want, and 
 even better, there was a simple Google Sheets plugin which could act as a simple JSON data source for the 
-dashboard.
+dashboard, so this open source PoC wasn't incurring any long-term hosting/service costs.
 
 In other words, "1.0" of this project could ship once I met the following acceptance criteria:
 * Jira issues logged with required fields/releases, following expected conventions
 * Code complete with this project
-* Google sheets to act as a stand-in for having an actual API configured
-* Geckoboard dashboard configured
+* API endpoint that can serve to populate Google sheets (as a one off for the PoC)
+* A Geckoboard dashboard configured to use the Google sheets snapshot datasource
 
 # Getting Started/Prerequisites
 
@@ -172,10 +172,10 @@ Please note that the assumptions here are in-line with the concepts [Atlassian o
 # Next Steps
 Aside from the tactical problems noted as TODOs in the code, a few key aspects would make this more "complete" 
 from a practical code quality dashboard:
-* The metric that is missing is "cycle time to release", as it implies a metric that tracks each source code commit (e.g. merge request) until it is in production.
-  * Most organizations will likely consider investing in tracking this in Jira once they see the value of the other metrics, or consider investing in tracking this via their CI/CD pipelines, or via their specific source control
+* The metric that is missing is "Lead Time for Changes", as it implies a metric that tracks each source code commit (e.g. merge request) until it is in production.
+  * Most organizations will likely consider investing commit tracking in Jira once they see the value of the other metrics, or consider investing in tracking this via their CI/CD pipelines, or via their specific source control
     package (e.g. git, bitbucket, github, etc.)
-  * Given this use case long-tails quickly, I deferred this feature until later.
+  * Given this use case long-tails quickly in terms of how organizations track this metric, I deferred this feature until later.
 * Days per release vs. Releases per day
   * The dashboard I set up is fairly naive about what the actual code is doing. The code normalizes this to a value greater than 1, but the dashboard doesn't flip the meaning of a good vs. bad score. Stated another way, the UX and the data supporting it should be loosely coupled. Not only is this not so, it's closely coupled in a potentially broken way. Fixing this probably looks like allowing a configuration flag for Releases/Day or Days/Release reporting, not having it flip when you cross the threshold.
 
@@ -185,10 +185,18 @@ software development metrics specifically.
 
 [Implementing Lean Software Development](https://ptgmedia.pearsoncmg.com/images/9780321437389/samplepages/0321437381.pdf) by Mary & Tom Poppendieck
 
+Mary & Tom's book articulates many best practices to improve on these metrics, and it introduced me to the idea of the Andon aspect of the Toyota Production System.
+
 [Continuous Delivery](http://ptgmedia.pearsoncmg.com/images/9780321601919/samplepages/0321601912.pdf) by Jez Humble and David Farley
+
+Jez and David's book goes into great detail on how to shrink cycle time by adopting Continuous Delivery. It was the authoritative source I used to transform the release processes at a $2B company.
 
 [The Phoenix Project](https://itrevolution.com/the-phoenix-project/) by Gene Kim, Kevin Behr, George Spafford
 
+This book puts many of the concepts of cycle time, using dashboards to see flow (like the metrics reported in this package) into an accessible fiction novel. Entertaining and educational in one volume!
+
 [Accelerate: The Science of Lean Software and DevOps: Building and Scaling High Performing Technology Organizations](https://itrevolution.com/book/accelerate/) by Nicole Forsgren, Jez Humble, Gene Kim
 
-I'm grateful for their influences on my understandings and context, however, any bugs or misunderstandings on how to apply their guidance as evidenced in concept or in code is solely mine.
+Last and certainly not least, the research behind this book is the closest software development has gotten to research-based (e.g. statistically significant) evidence of factors that influence the productivity and quality of high-performing software teams. The inspiration for reporting of the metrics in this package came to me directly from this book.
+
+In closing, however, while I'm grateful for their influences on my understandings and context, any bugs, quirks, or misunderstandings on how to apply their guidance as evidenced in concept or in code is solely mine.
