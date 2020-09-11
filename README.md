@@ -3,6 +3,12 @@
 A project to report Software Engineering Metrics like Mean Time To Repair, Deployment Frequency, and 
 Change Failure Rate, using data pulled from Jira, in a 
 [dashboard like this one](https://share.geckoboard.com/dashboards/CODTHZJCFXTAW2H2).
+
+<img src="https://raw.githubusercontent.com/khanklatt/misc/master/emr-screenshot.png"
+     alt="Metrics Dashboard Screenshot"
+     style="float: left; margin-right: 10px;" />
+
+
 # TL;DR: 
 Here's a quick index for the rest of this readme to skip to the most relevant section for you.
 - [Introduction](#introduction): Where I explain what this project does and why
